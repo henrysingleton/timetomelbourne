@@ -1,44 +1,55 @@
 {% load leaflet_tags %}
 <html>
-  <head>
-    {% leaflet_js %}
-    {% leaflet_css %}
-  </head>
-  <body>
-    <h1>Weather Stations</h1>
-    {% leaflet_map "main" callback="main_map_init" %}
+    <head>
+        {% leaflet_js %}
+        {% leaflet_css %}
+    </head>
+    <body>
+        <h1>Bulk Point Creation</h1>
 
-    <script type="text/javascript">
-        function main_map_init (map, options) {
+        {% leaflet_map "main" callback="main_map_init" %}
 
-            // set default position
-            map.setView([-37.81044510305556, 144.9629044532776], 13);
+        <script type="text/javascript">
+            function main_map_init (map, options) {
 
-            var onMapClick = function(e) {
-                var latInc = (0.08 * 0.2),
-                    lngInc = (0.1 * 0.2),
-                    latLimit = 10,
-                    lngLimit = 10;
+                // set default position
+                map.setView([-37.81044510305556, 144.9629044532776], 13);
 
-                var startingLat = e.latlng.lat,
-                    startingLng = e.latlng.lng;
+                var onMapClick = function(e) {
+                    var latInc = (1 * 0.004), //0.016 Y
+                        lngInc = (1 * 0.005),  //0.02  X
+                        latLimit = 50,
+                        lngLimit = 50,
+                        myIcon = L.divIcon({className: 'my-div-icon'});
 
-                for (lat = startingLat; lat > startingLat - (latInc * latLimit); lat = lat - latInc) {
+                    var startingLat = e.latlng.lat,
+                        startingLng = e.latlng.lng;
 
-                    for (lng = startingLng; lng < startingLng + (lngInc * lngLimit); lng = lng + lngInc) {
-                        console.log(lat, lng);
-                        L.marker([lat, lng]).addTo(map);
+                    for (lat = startingLat; lat > startingLat - (latInc * latLimit); lat = lat - latInc) {
+
+                        for (lng = startingLng; lng < startingLng + (lngInc * lngLimit); lng = lng + lngInc) {
+
+
+                            var marker = L.marker([lat, lng], {icon: myIcon});
+                            marker.on('click',function(e) {
+                                map.removeLayer(e.target);
+                            });
+                            marker.addTo(map);
+                        }
                     }
-                }
 
-            };
+                };
 
-
-
-            map.on('click', onMapClick);
+                map.on('click', onMapClick);
+            }
+        </script>
+    <style type="text/css">
+        #main {
+            height: 1600px;
         }
-
-
-    </script>
-  </body>
+        .my-div-icon {
+            background: red;
+        }
+    </style>
+    </body>
 </html>
