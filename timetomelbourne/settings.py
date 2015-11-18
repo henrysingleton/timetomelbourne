@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djgeojson',
+    'leaflet',
+    'pttime',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,3 +107,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Django Leaflet
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (144.9629044532776, -37.81044510305556),
+    'DEFAULT_ZOOM': 12,
+    'MIN_ZOOM': 4,
+    'MAX_ZOOM': 20,
+}

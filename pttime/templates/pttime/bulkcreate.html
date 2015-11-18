@@ -1,0 +1,44 @@
+{% load leaflet_tags %}
+<html>
+  <head>
+    {% leaflet_js %}
+    {% leaflet_css %}
+  </head>
+  <body>
+    <h1>Weather Stations</h1>
+    {% leaflet_map "main" callback="main_map_init" %}
+
+    <script type="text/javascript">
+        function main_map_init (map, options) {
+
+            // set default position
+            map.setView([-37.81044510305556, 144.9629044532776], 13);
+
+            var onMapClick = function(e) {
+                var latInc = (0.08 * 0.2),
+                    lngInc = (0.1 * 0.2),
+                    latLimit = 10,
+                    lngLimit = 10;
+
+                var startingLat = e.latlng.lat,
+                    startingLng = e.latlng.lng;
+
+                for (lat = startingLat; lat > startingLat - (latInc * latLimit); lat = lat - latInc) {
+
+                    for (lng = startingLng; lng < startingLng + (lngInc * lngLimit); lng = lng + lngInc) {
+                        console.log(lat, lng);
+                        L.marker([lat, lng]).addTo(map);
+                    }
+                }
+
+            };
+
+
+
+            map.on('click', onMapClick);
+        }
+
+
+    </script>
+  </body>
+</html>
