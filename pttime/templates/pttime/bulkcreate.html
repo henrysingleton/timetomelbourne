@@ -12,6 +12,9 @@
         <script type="text/javascript">
 
             window.markers = [];
+            window.markerExport = function() {
+                console.log(JSON.stringify(window.markers));
+            }
 
             function main_map_init (map, options) {
 
