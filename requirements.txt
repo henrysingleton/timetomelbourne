@@ -1,0 +1,5 @@
+django
+psycopg2
+django-debug-toolbar
+django-geojson
+django-geojson [field]
