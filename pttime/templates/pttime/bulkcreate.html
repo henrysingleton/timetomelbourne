@@ -21,6 +21,10 @@
                 // set default position
                 map.setView([-37.81044510305556, 144.9629044532776], 13);
 
+                L.tileLayer('http://192.168.56.101/osm/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
                 var onMapClick = function(e) {
                     var latInc = (1 * 0.004), //0.016 Y
                         lngInc = (1 * 0.005),  //0.02  X
