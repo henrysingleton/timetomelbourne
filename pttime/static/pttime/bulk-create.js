@@ -30,27 +30,19 @@ format_point = function(latlng) {
 },
 
 map_points = function(data) {
-    data.each(function(point) {
-        create_point(geolocation.coordinates);
+    data.map(function(point) {
+        create_point(point.geolocation.coordinates);
     })
 },
 
 create_point = function(latlng, map) {
-    marker = L.marker([lat, lng], {icon: myIcon});
+    marker = L.marker(latlng, {icon: myIcon});
     marker.on('click',function(e) {
         window.maps[0].removeLayer(e.target);
     });
     marker.addTo(window.maps[0]);
 
     return marker;
-},
-
-fetch_points = function() {
-    $.ajax({
-        dataType: "json",
-        url: '/pttime/points/list/',
-        success: map_points
-    });
 },
 
 generate_point_array = function(e) {
@@ -72,6 +64,15 @@ generate_point_array = function(e) {
     return true;
 },
 
+// Restore points from the DB, normally happens on page load.
+restore_points = function() {
+    $.ajax({
+        dataType: "json",
+        url: '/pttime/points/list/',
+        success: map_points
+    });
+},
+
 onMapClick = function(e) {
     if ($('#tool').val() == 'add') {
         return generate_point_array(e);
@@ -85,11 +86,14 @@ function main_map_init (map, options) {
     // set default position
     map.setView([-37.81044510305556, 144.9629044532776], 13);
 
+    // hydrate the  map
+    restore_points();
+
     // Main map event
     map.on('click', onMapClick);
 
     // Save markers event
     document.getElementsByClassName('create-points')[0].addEventListener('click',save_markers);
 
-    window.map = map;
+
 }
