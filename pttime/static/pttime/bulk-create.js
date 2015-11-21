@@ -35,7 +35,7 @@ map_points = function(data) {
     })
 },
 
-create_point = function(latlng, map) {
+create_point = function(latlng) {
     marker = L.marker(latlng, {icon: myIcon});
     marker.on('click',function(e) {
         window.maps[0].removeLayer(e.target);
