@@ -11,7 +11,10 @@ urlpatterns = [
     # /bulk-create (just a view)
     url(r'^bulk-create/$', views.bulkcreate, name='bulkcreate'),
 
-    # Handle the bulk create REST
+    # Handle the standard REST for Locations (single only)
     url(r'^list/$', csrf_exempt(rest_views.LocationListView.as_view())),
+
+    # Handle the bulk create REST
+    url(r'^bulk-list/$', csrf_exempt(rest_views.post_bulk_create)),
 
 ]
