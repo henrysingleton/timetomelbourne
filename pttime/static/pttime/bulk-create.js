@@ -3,47 +3,93 @@ window.markerExport = function() {
     console.log(JSON.stringify(window.markers));
 }
 
+var myIcon = L.divIcon({className: 'my-div-icon'}),
+
+save_markers = function(e) {
+    points = window.markers.map(format_point);
+
+    var data = {
+        data: points
+    };
+
+    $.ajax({
+        url: '/pttime/bulk-list/',
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify(data)
+    });
+},
+
+format_point = function(latlng) {
+    return {
+        "geolocation": {
+            "coordinates": latlng,
+            "type": "Point"
+        }
+    };
+},
+
+map_points = function(data) {
+    data.each(function(point) {
+        create_point(geolocation.coordinates);
+    })
+},
+
+create_point = function(latlng, map) {
+    marker = L.marker([lat, lng], {icon: myIcon});
+    marker.on('click',function(e) {
+        window.maps[0].removeLayer(e.target);
+    });
+    marker.addTo(window.maps[0]);
+
+    return marker;
+},
+
+fetch_points = function() {
+    $.ajax({
+        dataType: "json",
+        url: '/pttime/points/list/',
+        success: map_points
+    });
+},
+
+generate_point_array = function(e) {
+    var latInc = ($('#lat_spacing').val() * 0.004), //0.016 Y
+        lngInc = ($('#lng_spacing').val() * 0.005),  //0.02  X (to handle the fact that spacing is slightly different between lng and lat
+        latLimit = $('#grid_width').val() * 1,
+        lngLimit = $('#grid_height').val() * 1;
+
+    var startingLat = e.latlng.lat,
+        startingLng = e.latlng.lng;
+
+    for (lat = startingLat; lat > startingLat - (latInc * latLimit); lat = lat - latInc) {
+        for (lng = startingLng; lng < startingLng + (lngInc * lngLimit); lng = lng + lngInc) {
+            create_point([lat, lng])
+            window.markers.push([lat, lng]);
+        }
+    }
+
+    return true;
+},
+
+onMapClick = function(e) {
+    if ($('#tool').val() == 'add') {
+        return generate_point_array(e);
+    }
+    return true;
+};
+
+
 function main_map_init (map, options) {
 
     // set default position
     map.setView([-37.81044510305556, 144.9629044532776], 13);
 
-    L.tileLayer('http://192.168.56.101/osm/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Running from PTTIME mirror'
-    }).addTo(map);
-
-    var onMapClick = function(e) {
-        var latInc = (1 * 0.004), //0.016 Y
-            lngInc = (1 * 0.005),  //0.02  X
-            latLimit = 50,
-            lngLimit = 50,
-            myIcon = L.divIcon({className: 'my-div-icon'});
-
-        var startingLat = e.latlng.lat,
-            startingLng = e.latlng.lng;
-
-        for (lat = startingLat; lat > startingLat - (latInc * latLimit); lat = lat - latInc) {
-
-            for (lng = startingLng; lng < startingLng + (lngInc * lngLimit); lng = lng + lngInc) {
-
-
-                var marker = L.marker([lat, lng], {icon: myIcon});
-
-                //markers.push(marker.toGeoJSON());
-                window.markers.push([lat, lng]);
-
-                marker.on('click',function(e) {
-                    map.removeLayer(e.target);
-                });
-                marker.addTo(map);
-            }
-        }
-
-        // then do something like JSON.stringify(window.markers) to export your lovely data!
-
-
-    };
-
+    // Main map event
     map.on('click', onMapClick);
 
+    // Save markers event
+    document.getElementsByClassName('create-points')[0].addEventListener('click',save_markers);
+
+    window.map = map;
 }

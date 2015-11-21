@@ -9,11 +9,51 @@
     <body>
         <h1>Bulk Point Creation</h1>
 
+        <select id="grid_width">
+            <option>Width</option>
+            <option>1</option>
+            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+            <option selected>50</option>
+            <option>100</option>
+        </select>
+
+        <select id="grid_height">
+            <option>Height</option>
+            <option>1</option>
+            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+            <option selected>50</option>
+            <option>100</option>
+        </select>
+
+        <select id="lat_spacing">
+            <option>Latitudinal spacing</option>
+            <option>0.5</option>
+            <option selected>1</option>
+            <option>1.5</option>
+        </select>
+
+        <select id="lng_spacing">
+            <option>Longitudinal spacing</option>
+            <option>0.5</option>
+            <option selected>1</option>
+            <option>1.5</option>
+        </select>
+
+        <select id="tool">
+            <option>Select tool</option>
+            <option value="add" selected>Add points grid</option>
+            <option value="nothing">Nothing</option>
+        </select>
+
         <button class="create-points">
-            Create these points please!
+            Save points!
         </button>
 
-
+        <script type="text/javascript" src='{% static "pttime/jquery-2.1.4.js" %}'></script>
         {% leaflet_map "main" callback="main_map_init" %}
         <script type="text/javascript" src='{% static "pttime/bulk-create.js" %}'></script>
 
