@@ -1,0 +1,13 @@
+#main {
+    height: 900px;
+}
+
+.my-div-icon {
+    background: red;
+}
+
+.create-points {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
