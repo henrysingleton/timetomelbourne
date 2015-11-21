@@ -108,10 +108,38 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#Django Leaflet
+
+# Django Leaflet stuff
+
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (144.9629044532776, -37.81044510305556),
     'DEFAULT_ZOOM': 12,
     'MIN_ZOOM': 4,
     'MAX_ZOOM': 20,
+    'TILES': 'http://192.168.56.101/osm/{z}/{x}/{y}.png',
+    'NO_GLOBALS': False
+    # 'SPATIAL_EXTENT': (5.0, 44.0, 7.5, 46)
+}
+
+
+# LOGGING!
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+
 }
