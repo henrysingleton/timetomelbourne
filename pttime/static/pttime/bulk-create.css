@@ -8,6 +8,20 @@
 
 .create-points {
     position: absolute;
-    right: 30px;
-    top: 30px;
+    right: 7px;
+    top: 32px;
+    font-size: 19px;
+    font-family: Luminari;
 }
+
+h1 {
+    font-family: Luminari;
+    text-align: center;
+    color: red;
+}
+
+/*
+body {
+    background: black url(/static/pttime/animated-stars-background.gif);
+}
+*/

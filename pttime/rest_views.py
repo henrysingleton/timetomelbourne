@@ -7,7 +7,6 @@ from .models import Location
 from django.http import HttpResponse
 
 
-
 class LocationListView(views.ListPostMixin, views.ListGetMixin, views.BaseListView):
     model = models.Location
     mapper_class = mappers.LocationMapper
@@ -19,8 +18,9 @@ def post_bulk_create(request):
 
     location_objects = [
         Location(
-            suburb=location['suburb'],
-            postcode=location['postcode'],
+            #suburb=location['suburb'],
+            #postcode=location['postcode'],
+            geolocation=location['geolocation']
         )
         for location in json_obj['data']
     ]
