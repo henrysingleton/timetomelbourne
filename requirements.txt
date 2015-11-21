@@ -2,3 +2,4 @@ django
 psycopg2
 django-debug-toolbar
 django-geojson [field]
+django-nap
