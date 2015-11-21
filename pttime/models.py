@@ -5,8 +5,8 @@ from djgeojson.fields import PointField
 
 # Create your models here.
 class Location(models.Model):
-    postcode = models.IntegerField()
-    suburb = models.CharField(max_length=200)
+    postcode = models.CharField(blank=True, max_length=5)
+    suburb = models.CharField(max_length=200, blank=True)
     landmark = models.CharField(max_length=200, blank=True)
     geolocation = PointField(blank=True)
 
