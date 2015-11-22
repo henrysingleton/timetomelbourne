@@ -24,3 +24,16 @@ class Location(models.Model):
     #         for point in points
     #     ]
     #     msg = Location.objects.bulk_create(location_objs)
+
+class Route(models.Model):
+    origin = models.ForeignKey(Location, related_name='origin')
+    destination = models.ForeignKey(Location, related_name='destination')
+    transfers = models.IntegerField()
+    time = models.DurationField()
+    walking_time = models.DurationField()
+    pain = models.IntegerField(null=True)
+    xml_response = models.TextField()
+    created = models.DateField(auto_now_add=True)
+    updated = models.DateField(auto_now=True)
+
+
