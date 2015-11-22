@@ -3,25 +3,20 @@
 }
 
 .my-div-icon {
-    background: red;
-}
-
-.create-points {
-    position: absolute;
-    right: 7px;
-    top: 32px;
-    font-size: 19px;
-    font-family: Luminari;
+    background: #40A9BF;
+    border: 1px solid #F8FFFE;
+    border-radius: 10px;
+    cursor: crosshair;
 }
 
 h1 {
-    font-family: Luminari;
     text-align: center;
-    color: red;
+    font-family: sans-serif;
+    font-weight: normal;
 }
 
-/*
 body {
-    background: black url(/static/pttime/animated-stars-background.gif);
+    background: #F8FFFE;
+    color: #40A9BF;
+    padding: 50px;
 }
-*/
