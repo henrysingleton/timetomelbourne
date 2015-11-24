@@ -117,7 +117,13 @@ LEAFLET_CONFIG = {
     'MIN_ZOOM': 4,
     'MAX_ZOOM': 20,
     'TILES': 'http://192.168.56.101/osm/{z}/{x}/{y}.png',
-    'NO_GLOBALS': False
+    'NO_GLOBALS': False,
+    'PLUGINS': {
+        'forms': {
+                'js': ['/static/pttime/jquery-2.1.4.js', '/static/pttime/admin-point.js'],
+                'auto-include': True,
+        },
+    }
     # 'SPATIAL_EXTENT': (5.0, 44.0, 7.5, 46)
 }
 
