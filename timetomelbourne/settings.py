@@ -143,3 +143,8 @@ LOGGING = {
     },
 
 }
+
+BINGMAPS = {
+    'key': 'Ag3rJe-YpHuknwoKRjZooOoTldyyukufpqLQuyu8VfdXnuqRC7SI30sWMoLtG6bh',
+    'url': 'http://dev.virtualearth.net/REST/V1/'
+}

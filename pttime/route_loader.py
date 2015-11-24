@@ -1,7 +1,10 @@
 from .models import Location, Route
-
+from . import bingmaps
 
 class RouteLoader:
+
+    provider = 'bing'
+
     def locations_requiring_update(self):
         """Find all locations that will need an update and return them. IE those that have no routes against them,
         or that only have routes against them that are stale"""
@@ -12,9 +15,11 @@ class RouteLoader:
         locations = self.locations_requiring_update()
 
         for location in locations:
-            route_data = self.fetch_route_data()
-            Route.xml_response = route_data
-            # do more saving of fields here. 
 
-    def fetch_route_data(self):
-        return 'do the bing api request here'
+            params = []
+
+            response = bingmaps.make_request('Routes/Transit', params)
+
+
+            Route.xml_response = route_data
+            # do more saving of fields here.
