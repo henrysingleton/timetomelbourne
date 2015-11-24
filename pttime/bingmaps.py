@@ -1,5 +1,5 @@
-import urllib
 import json
+import requests
 
 from django.conf import settings
 
@@ -18,24 +18,18 @@ class BingRequest(dict):
         if parameters is not None:
             self.update(parameters)
 
-    def to_url(self):
-        """ Serialize as a URL for a GET request.
-        """
-        parameters = urllib.urlencode(self.items())
-        return "%s?%s" % (self.url, parameters)
-
 
 class BingMaps(object):
     """ API for maps.bing.com
     """
 
-    ROUTES_URL = 'https://dev.virtualearth.net/REST/v1/Routes'
+    ROUTES_URL = 'https://dev.virtualearth.net/REST/v1/Routes/Transit'
     ROUTES_FROM_MAJOR_ROADS_URL = 'https://dev.virtualearth.net/REST/v1/Routes/FromMajorRoads'
 
     def __init__(self, key):
         self.key = key
 
-    def get_routes(self, waypoints, avoid=None, optmz='time', rpo=False, du='km', travel_mode='Driving'):
+    def get_routes(self, waypoints, avoid=None, optmz='time', rpo=False, du='km', travel_mode='Driving', time=None, time_type=None):
         parameters = dict((("wp.%d" % (i+1), w) for i, w in enumerate(waypoints)))
         parameters.update(dict(optmz=optmz, du=du, travelMode=travel_mode))
         if avoid:
@@ -43,6 +37,12 @@ class BingMaps(object):
 
         if rpo:
             parameters['rpo'] = 'Points'
+
+        if time:
+            parameters['time'] = time
+
+        if time_type:
+            parameters['timeType'] = time_type
 
         request = BingRequest(self.key, url=self.ROUTES_URL, parameters=parameters)
         return self.load(request)
@@ -58,11 +58,10 @@ class BingMaps(object):
         request = BingRequest(self.key, url=self.ROUTES_FROM_MAJOR_ROADS_URL, parameters=parameters)
         return self.load(request)
 
-    @staticmethod
-    def load(request):
+    def load(self, request):
         try:
-            json_data = urllib.urlopen(request.to_url())
-            data = json.load(json_data)
+            r = requests.get(self.ROUTES_URL, request.items())
+            data = r.json();
             assert data['statusCode'] == 200
             return data['resourceSets'][0]['resources'][0]
         except (IOError, AssertionError):

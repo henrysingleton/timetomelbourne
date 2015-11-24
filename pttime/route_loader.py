@@ -1,9 +1,9 @@
-from .models import Location, Route
+from .models import Location
 from . import bingmaps
+
 
 class RouteLoader:
 
-    provider = 'bing'
 
     def locations_requiring_update(self):
         """Find all locations that will need an update and return them. IE those that have no routes against them,
@@ -11,15 +11,10 @@ class RouteLoader:
 
         return Location.objects.all()
 
-    def start(self, start_id, limit):
+    def start(self, start_id, destination, limit):
         locations = self.locations_requiring_update()
 
+
         for location in locations:
-
-            params = []
-
-            response = bingmaps.make_request('Routes/Transit', params)
-
-
-            Route.xml_response = route_data
-            # do more saving of fields here.
+            waypoints = [location.coordinates, destination.coordinates]
+            results = bingthing.get_routes(waypoints, travel_mode='Transit')

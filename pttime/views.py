@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from . import route_loader
+from . import models
 
 
 def index(request):
@@ -8,3 +10,10 @@ def index(request):
 
 def bulkcreate(request):
     return render(request, 'pttime/bulkcreate.html')
+
+
+def load_routes(request):
+    destination = models.Location.objects.filter(id=8724)[0]
+    routey_loader = route_loader.RouteLoader()
+    routey_loader.start(destination=destination, limit=10, start_id=1)
+    return HttpResponse('DONE!')
