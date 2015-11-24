@@ -12,7 +12,10 @@ class Location(models.Model):
         verbose_name = "Location Point"
 
     def _get_coordinates(self):
-        return '%s %s' % (self.geolocation['coordinates'][0], self.geolocation['coordinates'][1])
+        if (self.geolocation and self.geolocation['coordinates'][0] and self.geolocation['coordinates'][1]):
+            return '%s,%s' % (self.geolocation['coordinates'][0], self.geolocation['coordinates'][1])
+        else:
+            return ''
     coordinates = property(_get_coordinates)
 
 
