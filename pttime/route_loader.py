@@ -17,4 +17,4 @@ class RouteLoader:
 
         for location in locations:
             waypoints = [location.coordinates, destination.coordinates]
-            results = bingthing.get_routes(waypoints, travel_mode='Transit')
+            results = bingthing.get_routes(waypoints, travel_mode='Transit', date_time='9:00:00AM', time_type='Arrival')

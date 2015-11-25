@@ -29,7 +29,8 @@ class BingMaps(object):
     def __init__(self, key):
         self.key = key
 
-    def get_routes(self, waypoints, avoid=None, optmz='time', rpo=False, du='km', travel_mode='Driving', time=None, time_type=None):
+    def get_routes(self, waypoints, avoid=None, optmz='time', rpo=False, du='km', travel_mode='Driving', date_time=None,
+                   time_type=None):
         parameters = dict((("wp.%d" % (i+1), w) for i, w in enumerate(waypoints)))
         parameters.update(dict(optmz=optmz, du=du, travelMode=travel_mode))
         if avoid:
@@ -38,8 +39,8 @@ class BingMaps(object):
         if rpo:
             parameters['rpo'] = 'Points'
 
-        if time:
-            parameters['time'] = time
+        if date_time:
+            parameters['dateTime'] = date_time
 
         if time_type:
             parameters['timeType'] = time_type
