@@ -13,7 +13,10 @@ class Location(models.Model):
 
     def _get_coordinates(self):
         if (self.geolocation and self.geolocation['coordinates'][0] and self.geolocation['coordinates'][1]):
-            return '%s,%s' % (self.geolocation['coordinates'][0], self.geolocation['coordinates'][1])
+            if (self.geolocation['coordinates'][1] < 0):
+                return '%s,%s' % (self.geolocation['coordinates'][1], self.geolocation['coordinates'][0])
+            else:
+                return '%s,%s' % (self.geolocation['coordinates'][0], self.geolocation['coordinates'][1])
         else:
             return ''
     coordinates = property(_get_coordinates)
