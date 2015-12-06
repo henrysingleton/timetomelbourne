@@ -29,15 +29,23 @@ format_point = function(latlng) {
     };
 },
 
+remove_point = function(id) {
+$.ajax({
+        url: '/pttime/points/view/'+id+'/',
+        type: 'DELETE'
+    });
+}
+
 map_points = function(data) {
     data.map(function(point) {
-        create_point(point.geolocation.coordinates);
+        create_point(point.geolocation.coordinates, point.id);
     })
 },
 
-create_point = function(latlng) {
+create_point = function(latlng,id) {
     marker = L.marker(latlng, {icon: myIcon});
     marker.on('click',function(e) {
+        remove_point(id);
         window.maps[0].removeLayer(e.target);
     });
     marker.addTo(window.maps[0]);

@@ -1,4 +1,8 @@
 from nap.rest import views
+from nap.rest.views import (
+    ObjectGetMixin, ObjectPutMixin, ObjectPatchMixin, ObjectDeleteMixin,
+    BaseObjectView,
+)
 import json
 
 from . import mappers
@@ -28,3 +32,13 @@ def post_bulk_create(request):
     msg = models.Location.objects.bulk_create(location_objects)
 
     return HttpResponse(msg)
+
+
+class LocationDetailView(ObjectGetMixin,
+                         ObjectPutMixin,
+                         ObjectPatchMixin,
+                         ObjectDeleteMixin,
+                         BaseObjectView):
+    model = models.Location
+    slug_field = 'location_id'
+    mapper_class = mappers.LocationMapper

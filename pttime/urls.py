@@ -17,6 +17,9 @@ urlpatterns = [
     # Some resty-rest for your fancy furniture! (Just some standard list bits)
     url(r'^points/list/$', csrf_exempt(rest_views.LocationListView.as_view())),
 
+    # Mainly for the delete endpoint
+    url(r'^points/view/(?P<pk>\d+)/$', csrf_exempt(rest_views.LocationDetailView.as_view())),
+
     # Some resty-rest for your fancy furniture! (Just some standard list bits)
     url(r'^load-routes/$', views.load_routes),
 
