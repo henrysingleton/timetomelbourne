@@ -1,7 +1,6 @@
 from django.db import models
 from djgeojson.fields import PointField
 
-
 class Location(models.Model):
     postcode = models.CharField(blank=True, max_length=5)
     suburb = models.CharField(max_length=200, blank=True)
@@ -12,14 +11,18 @@ class Location(models.Model):
         verbose_name = "Location Point"
 
     def _get_coordinates(self):
-        if (self.geolocation and self.geolocation['coordinates'][0] and self.geolocation['coordinates'][1]):
-            if (self.geolocation['coordinates'][1] < 0):
-                return '%s,%s' % (self.geolocation['coordinates'][1], self.geolocation['coordinates'][0])
-            else:
-                return '%s,%s' % (self.geolocation['coordinates'][0], self.geolocation['coordinates'][1])
+        if self.geolocation and self.geolocation['coordinates'][0] and self.geolocation['coordinates'][1]:
+            return '%s,%s' % (self.geolocation['coordinates'][0], self.geolocation['coordinates'][1])
         else:
             return ''
+
     coordinates = property(_get_coordinates)
+
+    def save(self, *args, **kwargs):
+        if self.geolocation and self.geolocation['coordinates'][0] and self.geolocation['coordinates'][1] and self.geolocation['coordinates'][1] < 0:
+            self.geolocation['coordinates'] = {self.geolocation['coordinates'][1], self.geolocation['coordinates'][0]}
+
+        super(Route, self).save(*args, **kwargs)  # Call the "real" save() method.
 
 
 class Route(models.Model):
@@ -29,8 +32,19 @@ class Route(models.Model):
     time = models.DurationField()
     walking_time = models.DurationField()
     pain = models.IntegerField(null=True)
-    xml_response = models.TextField()
+    score = models.IntegerField(null=True)
+    response = models.TextField()
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
 
+    def calculate_score(self):
+        # We want to calculate a score. Maybe dont worry about this yet, and just do times?
+        self.score = 1
 
+    def calculate_pain(self):
+        self.pain = 1
+
+    def save(self, *args, **kwargs):
+        self.calculate_pain()
+        self.calculate_score()
+        super(Route, self).save(*args, **kwargs)  # Call the "real" save() method.
