@@ -28,14 +28,15 @@ class Location(models.Model):
 class Route(models.Model):
     origin = models.ForeignKey(Location, related_name='origin')
     destination = models.ForeignKey(Location, related_name='destination')
-    transfers = models.IntegerField()
-    time = models.DurationField()
-    walking_time = models.DurationField()
+    transfers = models.IntegerField(null=True)
+    time = models.DurationField(null=True)
+    walking_time = models.DurationField(null=True)
     pain = models.IntegerField(null=True)
     score = models.IntegerField(null=True)
-    response = models.TextField()
+    response = models.TextField(null=True)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
+    possible = models.BooleanField(default=True)
 
     def calculate_score(self):
         # We want to calculate a score. Maybe dont worry about this yet, and just do times?

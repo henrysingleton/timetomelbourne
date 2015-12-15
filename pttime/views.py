@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from . import route_loader
+from .route_loader import RouteLoader
 from . import models
 
 

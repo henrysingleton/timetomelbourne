@@ -1,4 +1,3 @@
-import json
 import requests
 
 from django.conf import settings
@@ -62,10 +61,14 @@ class BingMaps(object):
     def load(self, request):
         try:
             r = requests.get(self.ROUTES_URL, request.items())
-            data = r.json();
+            data = r.json()
             assert data['statusCode'] == 200
             return data['resourceSets'][0]['resources'][0]
-        except (IOError, AssertionError):
-            raise BingError("Not load data.")
-        except (KeyError, IndexError):
-            raise BingError("Not parse data.")
+
+        # If there was an IO error we want to fail. Currently uncaught.
+        except IOError:
+            raise BingError("IO Error: Could not load data.")
+
+        # If the data is in a weird form, or we got something other than a 200 status, return it.
+        except (AssertionError, KeyError, IndexError):
+            return data
