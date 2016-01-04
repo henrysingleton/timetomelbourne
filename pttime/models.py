@@ -6,6 +6,7 @@ class Location(models.Model):
     suburb = models.CharField(max_length=200, blank=True)
     landmark = models.CharField(max_length=200, blank=True)
     geolocation = PointField(blank=True)
+    default_destination = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Location Point"

@@ -90,5 +90,10 @@ class RouteLoader:
         # <Hint hintType="TimeToMakeConnection"
 
     def load_standard_routes(self, limit):
-        destination = Location.objects.filter(id=8724)[0]
+        # Grab the default destination
+        try:
+            destination = Location.objects.filter(default_destination=True)[0]
+        except IndexError:
+            print('Could not find default destination row. Please ensure there is a row in `locations` table')
+            exit()
         return self.start(destination=destination, limit=limit)
