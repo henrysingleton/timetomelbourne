@@ -1,0 +1,18 @@
+{% load leaflet_tags %}
+{% load staticfiles %}
+<html>
+    <head>
+        {% leaflet_js %}
+        {% leaflet_css %}
+        <link href='{% static "pttime/heatmap.css" %}' rel='stylesheet' type='text/css'/>
+    </head>
+    <body>
+        <h1>Heatmap</h1>
+
+
+        <script type="text/javascript" src='{% static "pttime/jquery-2.1.4.js" %}'></script>
+        {% leaflet_map "main" callback="main_map_init" %}
+        <script type="text/javascript" src='{% static "pttime/heatmap.js" %}'></script>
+
+    </body>
+</html>

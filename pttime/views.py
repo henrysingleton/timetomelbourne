@@ -17,3 +17,7 @@ def load_routes(request):
     routey_loader = route_loader.RouteLoader()
     routey_loader.start(destination=destination, limit=2, start_id=1)
     return HttpResponse('DONE!')
+
+
+def heatmap(request):
+    return render(request, 'pttime/heatmap.html')

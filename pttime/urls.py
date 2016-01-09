@@ -23,4 +23,7 @@ urlpatterns = [
     # Some resty-rest for your fancy furniture! (Just some standard list bits)
     url(r'^load-routes/$', views.load_routes),
 
+    # View the actual heatmap
+    url(r'^heatmap/$', views.heatmap),
+
 ]
