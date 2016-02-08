@@ -59,8 +59,6 @@ class RouteLoader:
                 print('Could not get route. "%s"' % msg)
                 error_routes += 1
 
-            sleep(8)
-
     @staticmethod
     def parse_bing_data(data):
         """

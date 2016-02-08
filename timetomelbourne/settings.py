@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from celery.schedules import crontab
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,7 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djgeojson',
     'leaflet',
-    'pttime',
+    'pttime'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -94,7 +95,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Australia/Melbourne'
 
 USE_I18N = True
 
@@ -153,4 +154,15 @@ LOGGING = {
 BINGMAPS = {
     'key': 'Ag3rJe-YpHuknwoKRjZooOoTldyyukufpqLQuyu8VfdXnuqRC7SI30sWMoLtG6bh',
     'url': 'http://dev.virtualearth.net/REST/V1/'
+}
+
+
+from pttime.tasks import load_route
+# Celery shit
+CELERYBEAT_SCHEDULE = {
+    # Executes every minute
+    'route-load-every-minute': {
+        'task': 'pttime.tasks.load_route',
+        'schedule': crontab()
+    },
 }
