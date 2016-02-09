@@ -166,3 +166,8 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab()
     },
 }
+
+try:
+    from mantionvote.settings_local import *
+except ImportError:
+    pass
