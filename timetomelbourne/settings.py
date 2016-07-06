@@ -167,7 +167,11 @@ CELERYBEAT_SCHEDULE = {
     },
 }
 
+# from timetomelbourne.settings_local import *
+from . import settings_local
+
 try:
     from mantionvote.settings_local import *
 except ImportError:
     pass
+
