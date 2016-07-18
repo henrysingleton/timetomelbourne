@@ -156,6 +156,12 @@ BINGMAPS = {
     'url': 'http://dev.virtualearth.net/REST/V1/'
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+    }
+}
 
 from pttime.tasks import load_route
 # Celery shit
@@ -169,9 +175,4 @@ CELERYBEAT_SCHEDULE = {
 
 # from timetomelbourne.settings_local import *
 from . import settings_local
-
-try:
-    from mantionvote.settings_local import *
-except ImportError:
-    pass
 

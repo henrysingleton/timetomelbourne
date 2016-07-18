@@ -26,4 +26,7 @@ urlpatterns = [
     # View the actual heatmap
     url(r'^heatmap/$', views.heatmap),
 
+    # Address Points (JSON output)
+    url(r'^address_points/$', views.address_points),
+
 ]
